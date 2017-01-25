@@ -27,6 +27,8 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+// Use connect to transform the current Redux store state & action callback 
+// into the props you want to pass to a presentational component
 const VisibleTodoList = connect(
   mapStateToProps,
   mapDispatchToProps

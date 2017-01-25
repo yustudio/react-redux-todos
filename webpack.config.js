@@ -1,5 +1,9 @@
 module.exports = {
 	entry: './index.js',
+	resolve:  {
+		modulesDirectories: ['node_modules', './'],
+		extensions: ['', '.js', '.jsx'],
+	},
 	output: {
 		path: './',
 		filename: 'bundle.js'

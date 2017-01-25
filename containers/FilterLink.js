@@ -10,6 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    // if onClick is triggered in presentation components, dispatch 
+    // set visibility filter action
     onClick: () => {
       dispatch(setVisibilityFilter(ownProps.filter))
     }

@@ -23,6 +23,7 @@ const todo = (state = {}, action) => {
 const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
+      console.log("todos reducer's state: " + JSON.stringify(state))
       return [
         ...state,
         todo(undefined, action)
