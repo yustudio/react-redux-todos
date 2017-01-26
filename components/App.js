@@ -3,12 +3,10 @@ import Footer from './Footer'
 import AddTodo from '../containers/AddTodo'
 import VisibleTodoList from '../containers/VisibleTodoList'
 
-const App = ({params}) => (   // same as {params} = props ES6 destructuring assignment 
+const App = () => (   // same as {params} = props ES6 destructuring assignment 
   <div>
     <AddTodo />
-    <VisibleTodoList 
-    	filter={params.filter || 'all'}
-    />
+    <VisibleTodoList  />
     <Footer />
   </div>
 )

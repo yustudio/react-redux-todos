@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { withRouter }  from 'react-router'  // allow inject params directly to component not pass through App
 import { toggleTodo } from '../actions'
 import TodoList from '../components/TodoList'
 
@@ -15,12 +16,12 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, {params}) => {   // same as ownParams, then refer ownProps.params
   return {
     todos: getVisibleTodos(
       state.todos, 
       //state.visibilityFilter  // read from the store
-      ownProps.filter      
+      params.filter || 'all'
     )
 }}
 
@@ -32,11 +33,12 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-// Use connect to transform the current Redux store state & action callback 
+// Note 1: Use connect to transform the current Redux store state & action callback 
 // into the props you want to pass to a presentational component
-const VisibleTodoList = connect(
+// Note 2: Wrap withRouter around connect so that params is passed to connect as prop
+const VisibleTodoList = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(TodoList)
+)(TodoList))
 
 export default VisibleTodoList
