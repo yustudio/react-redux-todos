@@ -18,3 +18,11 @@ export const saveState = (state) => {
 		console.log("Failed to save state");
 	}
 }
+
+export const deleteState = () => {
+	try {
+		localStorage.removeItem('state');
+	} catch (err) {
+		console.log("Failed to remove state");
+	}
+}
