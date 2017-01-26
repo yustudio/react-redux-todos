@@ -9,7 +9,7 @@ const Root = ({store}) => (
 	<Provider store={store}>
 		{/*default to hash history, browserhistory keeps url clean of hash*/}
 		<Router history={browserHistory}>  
-			<Route path='/' component={App} />
+			<Route path='/(:filter)' component={App} />   
 		</Router>	
 	</Provider>
 );
