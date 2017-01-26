@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 
-const Todo = ({ onClick, completed, text }) => (
+const Todo = ({ onClick, completed, text }) => { 
+  return (
   <li
     onClick={onClick}
     style={{
@@ -9,7 +10,7 @@ const Todo = ({ onClick, completed, text }) => (
   >
     {text}
   </li>
-)
+)}  // same as () => ( ... w/o return )
 
 Todo.propTypes = {
   onClick: PropTypes.func.isRequired,
