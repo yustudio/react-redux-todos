@@ -9,7 +9,10 @@ const Root = ({store}) => (
 	<Provider store={store}>
 		{/*default to hash history, browserhistory keeps url clean of hash*/}
 		<Router history={browserHistory}>  
-			<Route path='/(:filter)' component={App} />   
+			{/*URL's filter part gets updated by Footer's FilterLink 'to'
+			filter passed to App as params and to VisibleTodoList as ownProps
+			React router manages filter data, Redux's store manages the todos*/}
+			<Route path='/(:filter)' component={App} />    
 		</Router>	
 	</Provider>
 );

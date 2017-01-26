@@ -4,7 +4,7 @@ import { Link } from 'react-router';  // want router to be in control of the url
 // {filter}: accepts filter as a prop, es6 destructuring assignment
 const FilterLink = ({filter, children}) => (
   <Link 
-    to={filter === 'all' ? '/' : filter}  // the URL path
+    to={filter === 'all' ? '/' : filter}  // set URL based on filter
     activeStyle={{  // link styles when 'to' prop matches current path 
       textDecoration: 'none',
       color: 'green'
