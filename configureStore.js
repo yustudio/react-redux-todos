@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle';
 
 const configureStore = () => {
 
-	deleteState();  // only used to remove the saved state
+	//deleteState();  // only used to remove the saved state
 	const persistedState = loadState();
 
 	const store = createStore(todoApp, persistedState);

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import todos from './todos'
+import todos, * as fromTodos from './todos'
 //import visibilityFilter from './visibilityFilter'
 
 const todoApp = combineReducers({
@@ -7,7 +7,7 @@ const todoApp = combineReducers({
 //  visibilityFilter
 })
 
-export default todoApp
+export default todoApp;
 
 // ways to write combineReducers with custom function name
 //http://redux.js.org/docs/basics/Reducers.html
@@ -17,3 +17,8 @@ export default todoApp
 //     visibilityFilter: visibilityFilter(state.visibilityFilter, action)
 //   }
 // }
+
+// Calls todo Selector to filter on state
+export const getVisibleTodos = (state, filter) => (
+	fromTodos.getVisibleTodos(state.todos, filter)
+)
