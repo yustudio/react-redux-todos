@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 import todoApp from './reducers/index';
-import { loadState, saveState, deleteState } from './localStorage';
-import throttle from 'lodash/throttle';
+//import { loadState, saveState, deleteState } from './localStorage';
+//import throttle from 'lodash/throttle';
 
 const addLoggingToDispatch = (store) => {
 	const rawDispatch = store.dispatch;
@@ -26,25 +26,26 @@ const addLoggingToDispatch = (store) => {
 const configureStore = () => {
 
 	//deleteState();  // only used to remove the saved state
-	const persistedState = loadState();
+	//const persistedState = loadState();  // comment out so to use fetch data
 
-	const store = createStore(todoApp, persistedState);
+	const store = createStore(todoApp);
+	//const store = createStore(todoApp, persistedState);
 	console.log(store.getState());
 
 	if (process.env.NODE_ENV !== 'production') {
 		store.dispatch = addLoggingToDispatch(store);
 	}	
 
-	// when store changes, saveState gets called
-	store.subscribe(throttle(() => {
-		saveState({
-			// persist only the todos state not UI filter state, which
-			// gets reset to showall by the reducer.
-			todos: store.getState().todos
-			});
-			// since everytime saveState calls stringify is expensive, 
-			// we throttle to save once every second  
-	}, 1000)); 
+	// // when store changes, saveState gets called
+	// store.subscribe(throttle(() => {
+	// 	saveState({
+	// 		// persist only the todos state not UI filter state, which
+	// 		// gets reset to showall by the reducer.
+	// 		todos: store.getState().todos
+	// 		});
+	// 		// since everytime saveState calls stringify is expensive, 
+	// 		// we throttle to save once every second  
+	// }, 1000)); 
 
 	return store;
 }
