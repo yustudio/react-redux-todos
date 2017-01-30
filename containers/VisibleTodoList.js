@@ -1,29 +1,43 @@
 import React, { Component } from  'react';
 import { connect } from 'react-redux'
 import { withRouter }  from 'react-router'  // allow inject params directly to component not pass through App
-import { toggleTodo } from '../actions'
+import * as actions from '../actions'
 import { getVisibleTodos } from '../reducers'
 import TodoList from '../components/TodoList'
 import { fetchTodos } from '../api';  // fetch todos inside component
 
  // add this component so that can have life cycle hooks
+ // It adds data fetching logic to presentation component Todolist
 class VisibleTodoList extends Component {
   componentDidMount() {  // only runs once
-    fetchTodos(this.props.filter).then(todos => 
-      console.log(this.props.filter, todos)
-      );
+   this.fetchData();
   }
 
+  // if props.filter changed, it means user has changed state that connect is watching
   componentDidUpdate(prevProps) {   
     if (this.props.filter !== prevProps.filter) {      
-      fetchTodos(this.props.filter).then(todos =>
-        console.log(this.props.filter, todos)
-      );
+     this.fetchData();
     }
   }
 
+  fetchData() {
+    const { filter, receiveTodos } = this.props;
+
+    // want fetchtodos to be part of state, so need to dispatch action
+     fetchTodos(filter).then(todos => 
+        //console.log(filter, todos)
+        receiveTodos(filter, todos)
+      );
+  }
+
   render() { 
-    return <TodoList {...this.props} />; 
+    const { toggleTodo, ...rest } = this.props;
+    return ( 
+      <TodoList 
+        {...rest} 
+        onTodoClick={toggleTodo} 
+      /> 
+    ); 
   }
 }
 
@@ -36,7 +50,7 @@ const mapStateToProps = (state, {params}) => {
   console.log("mapStateToProps state: " + JSON.stringify(state) + " params: " + JSON.stringify(params))
   return {
     todos: getVisibleTodos(state, filter),
-    filter     
+    filter  // so it will be available inside our component VisibleTodoList   
   }
 }
 
@@ -62,11 +76,14 @@ const mapStateToProps = (state, {params}) => {
 //   }
 // }
 
-// component genereated by connect will call render of VisibleTodoList
+// component genereated by connect subscribes to the store and pass state to 
+// the component we wrote VisitbleTodoList, and call render of VisibleTodoList
+// withRouter subscribe to router change, so we have acess to params.filter in the URL
 VisibleTodoList = withRouter(connect(  
   mapStateToProps,
   //mapDispatchToProps
-  { onTodoClick: toggleTodo } // shorthand for mapDispatchToProps(map presentation click to action) when the params are the same
+  actions
+  //{ onTodoClick: toggleTodo, receiveTodos} // shorthand for mapDispatchToProps(map presentation click to action) when the params are the same
 )(VisibleTodoList))
 
 // Note 1: Use connect to transform the current Redux store state & action callback 
