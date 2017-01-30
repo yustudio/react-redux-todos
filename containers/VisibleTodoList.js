@@ -4,7 +4,7 @@ import { withRouter }  from 'react-router'  // allow inject params directly to c
 import * as actions from '../actions'
 import { getVisibleTodos } from '../reducers'
 import TodoList from '../components/TodoList'
-import { fetchTodos } from '../api';  // fetch todos inside component
+//import { fetchTodos } from '../api';  // fetch todos inside component
 
  // add this component so that can have life cycle hooks
  // It adds data fetching logic to presentation component Todolist
@@ -21,13 +21,18 @@ class VisibleTodoList extends Component {
   }
 
   fetchData() {
-    const { filter, receiveTodos } = this.props;
+     const { filter, fetchTodos } = this.props;  // fetchTodos is injected by connect from action
 
-    // want fetchtodos to be part of state, so need to dispatch action
-     fetchTodos(filter).then(todos => 
-        //console.log(filter, todos)
-        receiveTodos(filter, todos)
-      );
+    // returns a promise that resolves to an action
+     fetchTodos(filter);
+      
+    // const { filter, receiveTodos } = this.props;
+
+    // // want fetchtodos to be part of state, so need to dispatch action
+    //  fetchTodos(filter).then(todos => 
+    //     //console.log(filter, todos)
+    //     receiveTodos(filter, todos)
+    //   );
   }
 
   render() { 

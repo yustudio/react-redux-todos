@@ -1,10 +1,16 @@
 import { v4 } from 'node-uuid';
+import * as api from '../api'; // namespace import
 
-export const receiveTodos = (filter, response) => ({
+const receiveTodos = (filter, response) => ({
   type: 'RECEIVE_TODOS',
   filter,
   response  
 })
+
+export const fetchTodos = (filter) => 
+  api.fetchTodos(filter).then(response =>  // fetchTodos returns promise that contains the action obj
+      receiveTodos(filter,response)  // receiveTodos returns action obj synchronously
+    );
 
 export const addTodo = (text) => {
   return {

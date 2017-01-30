@@ -10,6 +10,7 @@ const addLoggingToDispatch = (store) => {
 		return rawDispatch;
 	}
 
+	// if given action, return new dispatch function with logging
 	return (action) => {
 		console.group(action.type);
 
@@ -19,7 +20,17 @@ const addLoggingToDispatch = (store) => {
 		console.log('%c next state', 'color: green', store.getState());
 
 		console.groupEnd(action.type);
-		return returnValue;
+		return returnValue;  // return new dispatch function with logging
+	}
+}
+
+const addPromiseSupportToDispatch = (store) => {
+	const rawDispatch = store.dispatch;
+	return (action) => {
+		if (typeof action.then === 'function') {  // action is promise
+			return action.then(rawDispatch);
+		}
+		return rawDispatch(action);
 	}
 }
 
@@ -46,6 +57,8 @@ const configureStore = () => {
 	// 		// since everytime saveState calls stringify is expensive, 
 	// 		// we throttle to save once every second  
 	// }, 1000)); 
+
+	store.dispatch = addPromiseSupportToDispatch(store);
 
 	return store;
 }
