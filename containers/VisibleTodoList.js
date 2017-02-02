@@ -2,7 +2,7 @@ import React, { Component } from  'react';
 import { connect } from 'react-redux'
 import { withRouter }  from 'react-router'  // allow inject params directly to component not pass through App
 import * as actions from '../actions'
-import { getVisibleTodos } from '../reducers'
+import { getVisibleTodos, getIsFetching } from '../reducers'
 import TodoList from '../components/TodoList'
 //import { fetchTodos } from '../api';  // fetch todos inside component
 
@@ -21,7 +21,9 @@ class VisibleTodoList extends Component {
   }
 
   fetchData() {
-     const { filter, fetchTodos } = this.props;  // fetchTodos is injected by connect from action
+     const { filter, requestTodos, fetchTodos } = this.props;  // fetchTodos is injected by connect from action
+
+     requestTodos(filter);  // send off action to set fetching to true
 
     // returns a promise that resolves to an action
      fetchTodos(filter);
@@ -36,10 +38,16 @@ class VisibleTodoList extends Component {
   }
 
   render() { 
-    const { toggleTodo, ...rest } = this.props;
+    const { toggleTodo, todos, isFetching } = this.props;  
+
+    if (isFetching && !todos.length) {
+      return <p>Loading...</p>;
+    }
+
     return ( 
       <TodoList 
-        {...rest} 
+        todos={todos}
+        //{...rest} 
         onTodoClick={toggleTodo} 
       /> 
     ); 
@@ -54,7 +62,8 @@ const mapStateToProps = (state, {params}) => {
 
   console.log("mapStateToProps state: " + JSON.stringify(state) + " params: " + JSON.stringify(params))
   return {
-    todos: getVisibleTodos(state, filter),
+    todos: getVisibleTodos(state, filter),  
+    isFetching: getIsFetching(state, filter),
     filter  // so it will be available inside our component VisibleTodoList   
   }
 }
