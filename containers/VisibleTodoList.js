@@ -83,7 +83,7 @@ const mapStateToProps = (state, {params}) => {
 
 // component genereated by connect subscribes to the store and pass state to 
 // the component we wrote VisitbleTodoList, and call render of VisibleTodoList
-// withRouter subscribe to router change, so we have acess to params.filter in the URL
+// withRouter subscribe to router change, so mapStateToProps has acess to params.filter in the URL
 VisibleTodoList = withRouter(connect(  
   mapStateToProps,
   //mapDispatchToProps
