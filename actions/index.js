@@ -35,10 +35,10 @@ export const fetchTodos = (filter) => (dispatch, getState) => {  // same as retu
 
   return api.fetchTodos(filter).then(
     response => {  // fetchTodos returns promise that contains the action obj
-      console.log(
-        'normalized response',
-        normalize(response, schema.arrayOfTodos)
-        );
+      // console.log(
+      //   'normalized response',
+      //   normalize(response, schema.arrayOfTodos)
+      //   );
 
       dispatch({
         type: 'FETCH_TODOS_SUCCESS',
@@ -66,10 +66,10 @@ export const fetchTodos = (filter) => (dispatch, getState) => {  // same as retu
 // This is a thunk
 export const addTodo = (text) => (dispatch) => {
   api.addTodo(text).then(response => {
-    console.log(
-      'normalized response',
-      normalize(response, schema.todo)
-      );
+    // console.log(
+    //   'normalized response',
+    //   normalize(response, schema.todo)
+    //   );
 
     dispatch({
       type: 'ADD_TODO_SUCCESS',
