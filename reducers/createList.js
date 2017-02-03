@@ -9,13 +9,15 @@ const createList = (filter) => {
     switch (action.type) {
       case 'FETCH_TODO_REQUEST':
         return filter === action.filter ? 
-                action.response.map(todo => todo.id):
+                action.response.result :
+                //action.response.map(todo => todo.id):
                 state;
       // case 'ADD_TODO':
       //   return [...state, action.id];
       case 'ADD_TODO_SUCCESS':
         return filter !== 'completed' ? 
-                [...state, action.response.id] :   // action for add todo don't have filter property so beginnig chk would fail
+                [...state, action.response.result] : 
+                //[...state, action.response.id] :   // action for add todo don't have filter property so beginnig chk would fail
                 state;
       default:
         return state;

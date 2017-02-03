@@ -1,3 +1,5 @@
+import { normalize } from 'normalizr';
+import * as schema from './schema';
 //import { v4 } from 'node-uuid';
 import { getIsFetching } from '../reducers';
 import * as api from '../api'; // namespace import
@@ -31,11 +33,13 @@ export const fetchTodos = (filter) => (dispatch, getState) => {  // same as retu
 
   //dispatch(requestTodos(filter));
 
-  return api.fetchTodos(filter).then(response => {  // fetchTodos returns promise that contains the action obj
+  return api.fetchTodos(filter).then(
+    response => {  // fetchTodos returns promise that contains the action obj
+
       dispatch({
         type: 'FETCH_TODOS_SUCCESS',
         filter,
-        response  
+        response: normalize(response, schema.arrayOfTodos)  
       });
       //dispatch(receiveTodos(filter,response));  // receiveTodos returns action obj synchronously
     },  // don't use .then().catch(err => {}) since if reducers throws in dispatch, user will see error 
@@ -58,9 +62,10 @@ export const fetchTodos = (filter) => (dispatch, getState) => {  // same as retu
 // This is a thunk
 export const addTodo = (text) => (dispatch) => {
   api.addTodo(text).then(response => {
+
     dispatch({
       type: 'ADD_TODO_SUCCESS',
-      response
+      response: normalize(response, schema.todo)
     });
   });
 }
