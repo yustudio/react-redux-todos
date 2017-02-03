@@ -2,8 +2,9 @@ import React, { Component } from  'react';
 import { connect } from 'react-redux'
 import { withRouter }  from 'react-router'  // allow inject params directly to component not pass through App
 import * as actions from '../actions'
-import { getVisibleTodos, getIsFetching } from '../reducers'
+import { getVisibleTodos, getIsFetching, getErrorMessage } from '../reducers'
 import TodoList from '../components/TodoList'
+import FetchError from './FetchError';
 //import { fetchTodos } from '../api';  // fetch todos inside component
 
  // add this component so that can have life cycle hooks
@@ -41,10 +42,18 @@ class VisibleTodoList extends Component {
   }
 
   render() { 
-    const { toggleTodo, todos, isFetching } = this.props;  
+    const { toggleTodo, errorMessage, todos, isFetching } = this.props;  
 
     if (isFetching && !todos.length) {
       return <p>Loading...</p>;
+    }
+
+    if (errorMessage && !todos.length) {
+      return (<FetchError
+                message={errorMessage}
+                onRetry={() => this.fetchData()}
+              />
+      );
     }
 
     return ( 
@@ -66,6 +75,7 @@ const mapStateToProps = (state, {params}) => {
   console.log("mapStateToProps state: " + JSON.stringify(state) + " params: " + JSON.stringify(params))
   return {
     todos: getVisibleTodos(state, filter),  
+    errorMessage: getErrorMessage(state, filter),
     isFetching: getIsFetching(state, filter),
     filter  // so it will be available inside our component VisibleTodoList   
   }

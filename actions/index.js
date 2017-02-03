@@ -3,16 +3,16 @@ import { getIsFetching } from '../reducers';
 import * as api from '../api'; // namespace import
 
 
-const requestTodos = (filter) => ({
-  type: 'REQUEST_TODOS',
-  filter
-})
+// const requestTodos = (filter) => ({
+//   type: 'REQUEST_TODOS',
+//   filter
+// })
 
-const receiveTodos = (filter, response) => ({
-  type: 'RECEIVE_TODOS',
-  filter,
-  response  
-})
+// const receiveTodos = (filter, response) => ({
+//   type: 'RECEIVE_TODOS',
+//   filter,
+//   response  
+// })
 
 // Thunk: returns a function(instead of an action object) and function
 // gets conditionally returned.
@@ -24,11 +24,29 @@ export const fetchTodos = (filter) => (dispatch, getState) => {  // same as retu
     return Promise.resolve();
   }
 
-  dispatch(requestTodos(filter));
+  dispatch({
+    type: 'FETACH_TODOS_REQUEST',
+    filter
+  });
+
+  //dispatch(requestTodos(filter));
 
   return api.fetchTodos(filter).then(response => {  // fetchTodos returns promise that contains the action obj
-      dispatch(receiveTodos(filter,response));  // receiveTodos returns action obj synchronously
-    });
+      dispatch({
+        type: 'FETCH_TODOS_SUCCESS',
+        filter,
+        response  
+      });
+      //dispatch(receiveTodos(filter,response));  // receiveTodos returns action obj synchronously
+    },  // don't use .then().catch(err => {}) since if reducers throws in dispatch, user will see error 
+    error => {
+        dispatch({
+        type: 'FETCH_TODOS_FAILURE',
+        filter,
+        message: error.message || 'Error occured but no error message'  
+      });
+    }
+  );
 }
 
 // return promise

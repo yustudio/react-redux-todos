@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 // return copy of the map between id and todo items, with updated todo for action.id
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case 'RECEIVE_TODOS':
+    case 'FETCH_TODO_SUCCESS':
       const nextState = {...state};  // shallow copy
       action.response.forEach(todo => {
         nextState[todo.id] = todo; // don't change original state
