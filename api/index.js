@@ -21,9 +21,9 @@ const delay = (ms) =>
 // Simulate async fetching data
 export const fetchTodos = (filter) =>
 	delay(100).then(() => {
-		if (Math.random() > 0.5) {
-			throw new Error('Boom!')
-		}
+		// if (Math.random() > 0.5) {
+		// 	throw new Error('Boom!')
+		// }
 
 		switch (filter) {
 			case 'all':

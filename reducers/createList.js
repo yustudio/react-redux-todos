@@ -11,7 +11,7 @@ const createList = (filter) => {
     return shouldRemove ? 
             state.filter(id => id !== toggleId) :
             state;
-  }
+  };
 
   const ids = (state = [], action) => {
     //  if (action.filter !== filter) {
