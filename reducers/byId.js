@@ -17,7 +17,12 @@ const byId = (state = {}, action) => {
     //     ...state,  // need to install babel-plugin-transform-object-rest-spread and in babelrc transform-object-rest-spread
     //     [action.id]: todo(state[action.id], action)
     //   };
-    
+    case 'ADD_TODO_SUCCESS':
+      return {
+        ...state,
+        [action.response.id]: action.response  
+      };
+
     default:
       return state
   }

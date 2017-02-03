@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+//import { v4 } from 'node-uuid';
 import { getIsFetching } from '../reducers';
 import * as api from '../api'; // namespace import
 
@@ -55,13 +55,25 @@ export const fetchTodos = (filter) => (dispatch, getState) => {  // same as retu
 //       receiveTodos(filter,response)  // receiveTodos returns action obj synchronously
 //     );
 
-export const addTodo = (text) => {
-  return {
-    type: 'ADD_TODO',
-    id: v4(),  // unique id so not to conflict with id in saved state's id in localStorage
-    text
-  }
+// This is a thunk
+export const addTodo = (text) => (dispatch) => {
+  api.addTodo(text).then(response => {
+    dispatch({
+      type: 'ADD_TODO_SUCCESS',
+      response
+    });
+  });
 }
+  
+
+
+// export const addTodo = (text) => {
+//   return {
+//     type: 'ADD_TODO',
+//     id: v4(),  // unique id so not to conflict with id in saved state's id in localStorage
+//     text
+//   }
+// }
 
 // export const setVisibilityFilter = (filter) => {
 //   return {
@@ -70,9 +82,17 @@ export const addTodo = (text) => {
 //   }
 // }
 
+
 export const toggleTodo = (id) => {
   return {
     type: 'TOGGLE_TODO',
     id
   }
 }
+
+// export const toggleTodo = (id) => {
+//   return {
+//     type: 'TOGGLE_TODO',
+//     id
+//   }
+// }

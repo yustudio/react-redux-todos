@@ -2,15 +2,21 @@ import { combineReducers } from 'redux';
 
 const createList = (filter) => {
   const ids = (state = [], action) => {
-     if (action.filter !== filter) {
-      return state;
-    }
+    //  if (action.filter !== filter) {
+    //   return state;
+    // }
 
     switch (action.type) {
       case 'FETCH_TODO_REQUEST':
-        return action.response.map(todo => todo.id);
+        return filter === action.filter ? 
+                action.response.map(todo => todo.id):
+                state;
       // case 'ADD_TODO':
       //   return [...state, action.id];
+      case 'ADD_TODO_SUCCESS':
+        return filter !== 'completed' ? 
+                [...state, action.response.id] :   // action for add todo don't have filter property so beginnig chk would fail
+                state;
       default:
         return state;
     }
