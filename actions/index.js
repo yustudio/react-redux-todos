@@ -2,7 +2,7 @@ import { v4 } from 'node-uuid';
 import * as api from '../api'; // namespace import
 
 
-export const requestTodos = (filter) => ({
+const requestTodos = (filter) => ({
   type: 'REQUEST_TODOS',
   filter
 })

@@ -59,7 +59,8 @@ const configureStore = () => {
 	//deleteState();  // only used to remove the saved state
 	//const persistedState = loadState();  // comment out so to use fetch data
 
-	const middlewares = [promise]; // specifiy based on order action propagate through middleware
+	const middlewares = [thunk];
+	//const middlewares = [promise]; // specifiy based on order action propagate through middleware
 
 	if (process.env.NODE_ENV !== 'production') {
 		middlewares.push(createLogger());
