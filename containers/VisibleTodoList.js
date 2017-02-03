@@ -25,8 +25,11 @@ class VisibleTodoList extends Component {
 
      //requestTodos(filter);  // send off action to set fetching to true
 
+     // Returns a thunk that will get resolved by redux middleware
+     fetchTodos(filter).then(() => console.log('done!'));
+
     // returns a promise that resolves to an action
-     fetchTodos(filter);
+    //fetchTodos(filter);
       
     // const { filter, receiveTodos } = this.props;
 

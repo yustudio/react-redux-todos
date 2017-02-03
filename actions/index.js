@@ -1,4 +1,5 @@
 import { v4 } from 'node-uuid';
+import { getIsFetching } from '../reducers';
 import * as api from '../api'; // namespace import
 
 
@@ -13,8 +14,16 @@ const receiveTodos = (filter, response) => ({
   response  
 })
 
-// can call dispatch many times to receive data async
-export const fetchTodos = (filter) => (dispatch) => {
+// Thunk: returns a function(instead of an action object) and function
+// gets conditionally returned.
+// can call dispatch many times. if not already fetching, will send receiv async
+export const fetchTodos = (filter) => (dispatch, getState) => {  // same as return (dispatch, getState) { }
+  // If there is a request sent, don't send it again to avoid race 
+  // condition of async receives
+  if (getIsFetching(getState(), filter)) {
+    return Promise.resolve();
+  }
+
   dispatch(requestTodos(filter));
 
   return api.fetchTodos(filter).then(response => {  // fetchTodos returns promise that contains the action obj
