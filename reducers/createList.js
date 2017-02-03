@@ -1,6 +1,18 @@
 import { combineReducers } from 'redux';
 
 const createList = (filter) => {
+  const handleToggle = (state, action) => {
+    const {result: toggleId, entities } = action.response;
+    const {completed} = entities.todos[toggleId];
+    const shouldRemove = (
+      (completed && filter === 'active') ||
+      (!completed && filter === 'completed')
+    );
+    return shouldRemove ? 
+            state.filter(id => id !== toggleId) :
+            state;
+  }
+
   const ids = (state = [], action) => {
     //  if (action.filter !== filter) {
     //   return state;
@@ -19,6 +31,8 @@ const createList = (filter) => {
                 [...state, action.response.result] : 
                 //[...state, action.response.id] :   // action for add todo don't have filter property so beginnig chk would fail
                 state;
+      case 'TOGGLE_TODO_SUCCESS':
+        return handleToggle(state, action);
       default:
         return state;
     }
