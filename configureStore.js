@@ -1,9 +1,15 @@
 import { createStore, applyMiddleware } from 'redux';
-import promise from 'redux-promise';
+//import promise from 'redux-promise';
 import createLogger from 'redux-logger';
 import todoApp from './reducers/index';
 //import { loadState, saveState, deleteState } from './localStorage';
 //import throttle from 'lodash/throttle';
+
+// next dispatch function
+const thunk = (store) => (next) => (action) => 
+	typeof action === 'function' ?
+		action(store.dispatch) :
+		next(action);
 
 // const logger = (store) => { // could use (store) => (next)=> (action) => {}
 // 	return (next) => {  // currying: let user input what property to pass, e.g. dispatch

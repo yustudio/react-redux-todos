@@ -13,10 +13,20 @@ const receiveTodos = (filter, response) => ({
   response  
 })
 
-export const fetchTodos = (filter) => 
-  api.fetchTodos(filter).then(response =>  // fetchTodos returns promise that contains the action obj
-      receiveTodos(filter,response)  // receiveTodos returns action obj synchronously
-    );
+// can call dispatch many times to receive data async
+export const fetchTodos = (filter) => (dispatch) => {
+  dispatch(requestTodos(filter));
+
+  return api.fetchTodos(filter).then(response => {  // fetchTodos returns promise that contains the action obj
+      dispatch(receiveTodos(filter,response));  // receiveTodos returns action obj synchronously
+    });
+}
+
+// return promise
+// export const fetchTodos = (filter) => 
+//   api.fetchTodos(filter).then(response =>  // fetchTodos returns promise that contains the action obj
+//       receiveTodos(filter,response)  // receiveTodos returns action obj synchronously
+//     );
 
 export const addTodo = (text) => {
   return {

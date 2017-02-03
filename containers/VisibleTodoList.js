@@ -21,9 +21,9 @@ class VisibleTodoList extends Component {
   }
 
   fetchData() {
-     const { filter, requestTodos, fetchTodos } = this.props;  // fetchTodos is injected by connect from action
+     const { filter, fetchTodos } = this.props;  // fetchTodos is injected by connect from action
 
-     requestTodos(filter);  // send off action to set fetching to true
+     //requestTodos(filter);  // send off action to set fetching to true
 
     // returns a promise that resolves to an action
      fetchTodos(filter);
